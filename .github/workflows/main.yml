@@ -20,8 +20,11 @@ jobs:
     - name: Ejecutar script
       run: python ejecutar.py
 
-    - name: Subir resultado como artefacto
-      uses: upload-artifact@v4
-      with:
-        name: archivo-generado
-        path: resultado.txt
+    - name: subir archivo
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add resultado.txt
+        # El comando '|| exit 0' evita que el proceso falle si el archivo no ha cambiado
+        git commit -m "Add: Archivo generado por GitHub Actions" || exit 0
+        git push
