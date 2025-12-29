@@ -1,0 +1,27 @@
+name: Ejecutar Script de Python
+
+on:
+  push:
+    branches: [ "main" ]  # Se activa al subir cambios a la rama principal
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.14.2'
+
+    - name: Ejecutar script
+      run: python ejecutar.py
+
+    - name: Subir resultado como artefacto
+      uses: upload-artifact@v4
+      with:
+        name: archivo-generado
+        path: resultado.txt
