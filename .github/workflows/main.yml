@@ -1,0 +1,30 @@
+name: Ejecutar Script de Python
+
+on:
+  push:
+    branches: [ "main" ]  # Se activa al subir cambios a la rama principal
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.14.2'
+
+    - name: Ejecutar script
+      run: python ejecutar.py
+
+    - name: subir archivo
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add resultado.txt
+        # El comando '|| exit 0' evita que el proceso falle si el archivo no ha cambiado
+        git commit -m "Add: Archivo generado por GitHub Actions" || exit 0
+        git push
